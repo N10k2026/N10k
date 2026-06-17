@@ -5,21 +5,27 @@ import { versionMediaUrl, versionMediaUrls, versionColorImages } from '@/lib/med
 export function isStaticCatalogFallbackEnabled(): boolean {
   if (process.env.ALLOW_STATIC_CATALOG_FALLBACK === 'true') return true;
   if (process.env.ALLOW_STATIC_CATALOG_FALLBACK === 'false') return false;
-  return process.env.NODE_ENV !== 'production';
+  if (process.env.NODE_ENV !== 'production') return true;
+  // SQLite file URLs cannot work on serverless hosts (e.g. Vercel).
+  const url = process.env.DATABASE_URL?.trim() ?? '';
+  if (!url || url.startsWith('file:')) return true;
+  return false;
 }
 
 /** Prisma / SQLite connection errors where a static fallback is reasonable. */
 export function isDatabaseUnavailableError(error: unknown): boolean {
   if (!error || typeof error !== 'object') return false;
   const code = (error as { code?: string }).code;
-  if (code && ['P1001', 'P1002', 'P1003', 'P1017', 'P2024'].includes(code)) {
+  if (code && ['P1000', 'P1001', 'P1002', 'P1003', 'P1008', 'P1010', 'P1017', 'P2024'].includes(code)) {
     return true;
   }
   const message = String((error as { message?: string }).message ?? error);
   return (
     message.includes('Unable to open the database file') ||
     message.includes('SQLITE_CANTOPEN') ||
-    message.includes('SQLITE_BUSY')
+    message.includes('SQLITE_BUSY') ||
+    message.includes('Environment variable not found: DATABASE_URL') ||
+    message.includes('Error querying the database')
   );
 }
 

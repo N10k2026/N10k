@@ -7,6 +7,26 @@ import {
   type PerformancePrefs,
 } from '@/lib/performance-prefs';
 
+const SERVER_SNAPSHOT = getDefaultPerformancePrefs();
+
+let cachedSnapshot: PerformancePrefs = SERVER_SNAPSHOT;
+let cachedSnapshotKey = '';
+
+function prefsCacheKey(prefs: PerformancePrefs): string {
+  return [
+    prefs.reducedMotion,
+    prefs.reducedData,
+    prefs.isMobile,
+    prefs.useStaticHero,
+    prefs.disablePlasma,
+    prefs.canvasDprCap,
+    prefs.heroFrameRate,
+    prefs.heroExtractMaxWidth,
+    prefs.heroVideoPreload,
+    prefs.disableBackgroundParallax,
+  ].join('|');
+}
+
 function subscribe(onStoreChange: () => void) {
   if (typeof window === 'undefined') return () => {};
 
@@ -26,11 +46,17 @@ function subscribe(onStoreChange: () => void) {
 }
 
 function getSnapshot(): PerformancePrefs {
-  return getPerformancePrefs();
+  const next = getPerformancePrefs();
+  const key = prefsCacheKey(next);
+  if (key !== cachedSnapshotKey) {
+    cachedSnapshotKey = key;
+    cachedSnapshot = next;
+  }
+  return cachedSnapshot;
 }
 
 function getServerSnapshot(): PerformancePrefs {
-  return getDefaultPerformancePrefs();
+  return SERVER_SNAPSHOT;
 }
 
 export function usePerformancePrefs(): PerformancePrefs {
