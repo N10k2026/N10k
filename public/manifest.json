@@ -1,0 +1,31 @@
+{
+  "name": "N10K | Ropa de Caballero",
+  "short_name": "N10K",
+  "description": "Ropa masculina urbana y deportiva",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#E30613",
+  "icons": [
+    {
+      "src": "/brand/Icon_Mascota.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/Icon_Mascota.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/brand/Icon_Mascota.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "es",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "lifestyle"]
+}
