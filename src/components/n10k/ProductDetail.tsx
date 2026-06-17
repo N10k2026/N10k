@@ -1477,9 +1477,9 @@ export default function ProductDetail() {
               }
               lastTapRef.current = now;
             }}
-            onTouchEnd={(e) => {
+            onTouchEnd={() => {
               handleDoubleTap();
-              handlePanEnd(e);
+              handlePanEnd();
             }}
             onWheel={handleLightboxWheel}
             onMouseDown={(e) => {
