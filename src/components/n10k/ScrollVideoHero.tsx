@@ -28,6 +28,8 @@ const SCROLL_DISTANCE = '+=200%'; // 200% of viewport: ~1.4 viewports for video 
 const PROGRESS_BATCH = 4; // Throttle setState during frame extraction (ANIM-013)
 const BODY_CLASS = 'video-hero-active';
 
+type HeroFrame = ImageBitmap | HTMLCanvasElement;
+
 interface Particle {
   id: number;
   x: number;
@@ -98,7 +100,7 @@ export default function ScrollVideoHero() {
   const [showEntrance, setShowEntrance] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const framesRef = useRef<ImageBitmap[]>([]);
+  const framesRef = useRef<HeroFrame[]>([]);
   const scrollProgressRef = useRef(0);
   const rafIdRef = useRef(0);
   const currentFrameRef = useRef(-1);
@@ -156,7 +158,7 @@ export default function ScrollVideoHero() {
 
       const duration = video.duration;
       const totalFrames = Math.floor(duration * frameRate);
-      const frames: ImageBitmap[] = [];
+      const frames: HeroFrame[] = [];
 
       const nativeW = video.videoWidth;
       const nativeH = video.videoHeight;
@@ -192,7 +194,7 @@ export default function ScrollVideoHero() {
           snap.width = offCanvas.width;
           snap.height = offCanvas.height;
           snap.getContext('2d')!.drawImage(offCanvas, 0, 0);
-          frames.push(snap as unknown as ImageBitmap);
+          frames.push(snap);
         }
 
         if (i === totalFrames - 1 || i % PROGRESS_BATCH === 0) {
@@ -253,8 +255,8 @@ export default function ScrollVideoHero() {
 
       const canvasW = canvas.width;
       const canvasH = canvas.height;
-      const sourceW = (source as ImageBitmap).width || (source as HTMLCanvasElement).width;
-      const sourceH = (source as ImageBitmap).height || (source as HTMLCanvasElement).height;
+      const sourceW = source.width;
+      const sourceH = source.height;
 
       const sourceAspect = sourceW / sourceH;
       const canvasAspect = canvasW / canvasH;
