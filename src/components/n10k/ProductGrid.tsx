@@ -54,6 +54,7 @@ export default function ProductGrid() {
   const setSelectedProduct = useCartStore((state) => state.setSelectedProduct);
   const setPreselectedColor = useCartStore((state) => state.setPreselectedColor);
   const setDetailOpen = useCartStore((state) => state.setDetailOpen);
+  const addRecentlyViewed = useCartStore((state) => state.addRecentlyViewed);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlistItem = useCartStore((state) => state.toggleWishlistItem);
   const wishlist = useCartStore((state) => state.wishlist);
