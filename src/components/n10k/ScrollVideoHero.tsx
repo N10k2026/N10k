@@ -126,7 +126,7 @@ export default function ScrollVideoHero() {
 
   // ── Desktop: Static hero fallback (reduced motion/data) ──
   useEffect(() => {
-    if (useStaticHero || useMobileBanners) return;
+    if (!useStaticHero || useMobileBanners) return;
     setFramesReady(true);
     setShowEntrance(true);
     setShowOverlay(true);
