@@ -192,9 +192,12 @@ export default function ProductGrid() {
     });
   }, [addItem]);
 
-  const handleViewDetail = useCallback((_product: Product, _colorName?: string) => {
-    // Product detail disabled
-  }, []);
+  const handleViewDetail = useCallback((product: Product, colorName?: string) => {
+    setSelectedProduct(product);
+    setPreselectedColor(colorName || null);
+    setDetailOpen(true);
+    addRecentlyViewed(product.id);
+  }, [setSelectedProduct, setPreselectedColor, setDetailOpen, addRecentlyViewed]);
 
   const handleToggleWishlist = useCallback((productId: string, colorName: string) => {
     toggleWishlistItem(productId, colorName);

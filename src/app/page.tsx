@@ -46,6 +46,10 @@ const CartSidebar = dynamic(() => import('@/components/n10k/CartSidebar'), {
   ssr: false,
   loading: () => null,
 });
+const ProductDetail = dynamic(() => import('@/components/n10k/ProductDetail'), {
+  ssr: false,
+  loading: () => null,
+});
 const WishlistSidebar = dynamic(() => import('@/components/n10k/WishlistSidebar'), {
   ssr: false,
   loading: () => null,
@@ -58,6 +62,7 @@ const SearchModal = dynamic(() => import('@/components/n10k/SearchModal'), {
 export default function Home() {
   const prefs = usePerformancePrefs();
   const isCartOpen = useCartStore((state) => state.isOpen);
+  const isDetailOpen = useCartStore((state) => state.isDetailOpen);
   const isWishlistOpen = useCartStore((state) => state.isWishlistOpen);
   const isSearchOpen = useCartStore((state) => state.isSearchOpen);
 
@@ -68,12 +73,16 @@ export default function Home() {
   }, []);
 
   const [cartMounted, setCartMounted] = useState(false);
+  const [detailMounted, setDetailMounted] = useState(false);
   const [wishlistMounted, setWishlistMounted] = useState(false);
   const [searchMounted, setSearchMounted] = useState(false);
 
   useEffect(() => {
     if (isCartOpen) setCartMounted(true);
   }, [isCartOpen]);
+  useEffect(() => {
+    if (isDetailOpen) setDetailMounted(true);
+  }, [isDetailOpen]);
   useEffect(() => {
     if (isWishlistOpen) setWishlistMounted(true);
   }, [isWishlistOpen]);
@@ -169,6 +178,7 @@ export default function Home() {
       <WhatsAppButton />
 
       {cartMounted && <CartSidebar />}
+      {detailMounted && <ProductDetail />}
       {wishlistMounted && <WishlistSidebar />}
       {searchMounted && <SearchModal />}
     </div>

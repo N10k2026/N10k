@@ -58,7 +58,7 @@ export default function WishlistSection() {
       title: 'Movido al carrito',
       description: `${product.name} — ${colorName}`,
     });
-  }, [addItem, removeWishlistItem]);
+  }, [addItem, removeWishlistItem, setSelectedProduct, setPreselectedColor, setDetailOpen, addRecentlyViewed]);
 
   const handleRemove = useCallback((productId: string, colorName: string) => {
     removeWishlistItem(productId, colorName);
@@ -69,7 +69,12 @@ export default function WishlistSection() {
   }, [removeWishlistItem]);
 
   // Product detail disabled
-  const handleViewProduct = useCallback((_product: Product, _colorName: string) => {}, []);
+  const handleViewProduct = useCallback((product: Product, colorName: string) => {
+    setSelectedProduct(product);
+    setPreselectedColor(colorName);
+    setDetailOpen(true);
+    addRecentlyViewed(product.id);
+  }, [setSelectedProduct, setPreselectedColor, setDetailOpen, addRecentlyViewed]);
 
   // Don't render if wishlist is empty
   if (wishlistEntries.length === 0) return null;
