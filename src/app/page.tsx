@@ -16,7 +16,6 @@ import DeferredSection from '@/components/n10k/DeferredSection';
 import { Marquee } from '@/components/n10k/TextAnimations';
 import ScrollVideoHero from '@/components/n10k/ScrollVideoHero';
 import { usePerformancePrefs } from '@/hooks/use-performance-prefs';
-import { useAuthStore } from '@/lib/auth-store';
 import { useCartStore } from '@/lib/store';
 
 const Plasma = dynamic(() => import('@/components/n10k/Plasma'), {
@@ -55,10 +54,6 @@ const WishlistSidebar = dynamic(() => import('@/components/n10k/WishlistSidebar'
   ssr: false,
   loading: () => null,
 });
-const AuthModal = dynamic(() => import('@/components/n10k/AuthModal'), {
-  ssr: false,
-  loading: () => null,
-});
 const SearchModal = dynamic(() => import('@/components/n10k/SearchModal'), {
   ssr: false,
   loading: () => null,
@@ -66,7 +61,6 @@ const SearchModal = dynamic(() => import('@/components/n10k/SearchModal'), {
 
 export default function Home() {
   const prefs = usePerformancePrefs();
-  const checkSession = useAuthStore((state) => state.checkSession);
   const products = useCartStore((state) => state.products);
   const productsStatus = useCartStore((state) => state.productsStatus);
   const setSelectedProduct = useCartStore((state) => state.setSelectedProduct);
@@ -76,17 +70,11 @@ export default function Home() {
   const isCartOpen = useCartStore((state) => state.isOpen);
   const isWishlistOpen = useCartStore((state) => state.isWishlistOpen);
   const isSearchOpen = useCartStore((state) => state.isSearchOpen);
-  const isAuthModalOpen = useAuthStore((state) => state.isAuthModalOpen);
 
   const [detailMounted, setDetailMounted] = useState(false);
   const [cartMounted, setCartMounted] = useState(false);
   const [wishlistMounted, setWishlistMounted] = useState(false);
   const [searchMounted, setSearchMounted] = useState(false);
-  const [authMounted, setAuthMounted] = useState(false);
-
-  useEffect(() => {
-    checkSession();
-  }, [checkSession]);
 
   useEffect(() => {
     if (isDetailOpen) setDetailMounted(true);
@@ -100,10 +88,6 @@ export default function Home() {
   useEffect(() => {
     if (isSearchOpen) setSearchMounted(true);
   }, [isSearchOpen]);
-  useEffect(() => {
-    if (isAuthModalOpen) setAuthMounted(true);
-  }, [isAuthModalOpen]);
-
   // Deep link: /?product=<slug|id> opens product detail (BUG-008)
   useEffect(() => {
     if (productsStatus !== 'success' || products.length === 0) return;
@@ -219,7 +203,6 @@ export default function Home() {
       {detailMounted && <ProductDetail />}
       {cartMounted && <CartSidebar />}
       {wishlistMounted && <WishlistSidebar />}
-      {authMounted && <AuthModal />}
       {searchMounted && <SearchModal />}
     </div>
   );

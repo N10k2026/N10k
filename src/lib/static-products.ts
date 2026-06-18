@@ -11,7 +11,7 @@
  * appended as `?v=<n>` to every product image/video URL by the API layer
  * (see src/app/api/products/route.ts and src/lib/product-utils.ts).
  */
-export const MEDIA_VERSION = 20260619;
+export const MEDIA_VERSION = 20260620;
 
 export type StaticColor = { name: string; hex: string };
 export type StaticProduct = {
@@ -150,10 +150,15 @@ export const staticProducts: StaticProduct[] = [
     slug: 'hoodie-bold',
     category: 'Hoodies',
     price: 50,
-    image: '/products/hoodie-vinotinto.webp',
+    image: '/products/hoodie-vinotinto/1.webp',
     images: [
-      '/products/hoodie-vinotinto.webp',
-      '/products/hoodie-vinotinto-2.webp',
+      '/products/hoodie-vinotinto/1.webp',
+      '/products/hoodie-vinotinto/2.webp',
+      '/products/hoodie-vinotinto/3.webp',
+      '/products/hoodie-vinotinto/4.webp',
+      '/products/hoodie-vinotinto/5.webp',
+      '/products/hoodie-vinotinto/6.webp',
+      '/products/hoodie-vinotinto/7.webp',
       '/products/hoodie-negro.webp',
       '/products/hoodie-negro-2.webp',
       '/products/hoodie-marron.webp',
@@ -163,8 +168,13 @@ export const staticProducts: StaticProduct[] = [
     ],
     colorImages: {
       'Vinotinto': [
-        '/products/hoodie-vinotinto.webp',
-        '/products/hoodie-vinotinto-2.webp',
+        '/products/hoodie-vinotinto/1.webp',
+        '/products/hoodie-vinotinto/2.webp',
+        '/products/hoodie-vinotinto/3.webp',
+        '/products/hoodie-vinotinto/4.webp',
+        '/products/hoodie-vinotinto/5.webp',
+        '/products/hoodie-vinotinto/6.webp',
+        '/products/hoodie-vinotinto/7.webp',
       ],
       'Negro': [
         '/products/hoodie-negro.webp',

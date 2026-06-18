@@ -1,8 +1,7 @@
 'use client';
 
 import { useCartStore, selectTotalItems } from '@/lib/store';
-import { useAuthStore } from '@/lib/auth-store';
-import { ShoppingCart, Menu, X, Search, User, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, Heart } from 'lucide-react';
 import { useState, useEffect, useSyncExternalStore, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -14,10 +13,6 @@ export default function Header() {
   const wishlist = useCartStore((state) => state.wishlist);
   const setWishlistOpen = useCartStore((state) => state.setWishlistOpen);
   const setSearchOpen = useCartStore((state) => state.setSearchOpen);
-
-  const user = useAuthStore((state) => state.user);
-  const setAuthModalOpen = useAuthStore((state) => state.setAuthModalOpen);
-  const setAuthMode = useAuthStore((state) => state.setAuthMode);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileNavRef = useFocusTrap(menuOpen, () => setMenuOpen(false));
@@ -96,16 +91,6 @@ export default function Header() {
     }
   };
 
-  const handleAccountClick = () => {
-    setMenuOpen(false);
-    if (user) {
-      setAuthMode('profile');
-    } else {
-      setAuthMode('login');
-    }
-    setAuthModalOpen(true);
-  };
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -157,23 +142,6 @@ export default function Header() {
               aria-label="Buscar"
             >
               <Search className="h-5 w-5" />
-            </Button>
-
-            {/* Account */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative text-muted-foreground hover:text-[#E30613] hover:bg-transparent transition-colors duration-300"
-              onClick={handleAccountClick}
-              aria-label="Cuenta"
-            >
-              {mounted && user ? (
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#E30613] to-[#ff4d4f] flex items-center justify-center">
-                  <span className="text-[10px] font-black text-white">{user.name.charAt(0).toUpperCase()}</span>
-                </div>
-              ) : (
-                <User className="h-5 w-5" />
-              )}
             </Button>
 
             {/* Wishlist */}
@@ -240,19 +208,6 @@ export default function Header() {
             className="absolute right-0 top-0 h-full w-72 bg-card/95 backdrop-blur-2xl border-l border-border pointer-events-auto animate-slide-in-right"
           >
             <div className="flex flex-col px-5 py-6 gap-1">
-              {/* User info at top */}
-              {mounted && user && (
-                <div className="flex items-center gap-3 pb-4 mb-2 border-b border-border">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#E30613] to-[#ff4d4f] flex items-center justify-center">
-                    <span className="text-xs font-montserrat-black text-white">{user.name.charAt(0).toUpperCase()}</span>
-                  </div>
-                  <div>
-                    <p className="text-foreground text-sm font-montserrat-bold">{user.name}</p>
-                    <p className="text-muted-foreground text-[10px]">{user.email}</p>
-                  </div>
-                </div>
-              )}
-
               {navLinks.map((link) => (
                 <a
                   key={link.href}
@@ -266,15 +221,6 @@ export default function Header() {
 
               {/* Divider */}
               <div className="h-px bg-border my-2" />
-
-              {/* Account */}
-              <button
-                onClick={handleAccountClick}
-                className="flex items-center gap-3 text-sm font-montserrat-bold text-muted-foreground hover:text-[#E30613] transition-colors duration-300 py-3 px-3 rounded-xl hover:bg-accent/10 tracking-[0.06em] cursor-pointer"
-              >
-                <User className="h-4 w-4" />
-                {mounted ? (user ? 'Mi Cuenta' : 'Iniciar Sesión') : 'Iniciar Sesión'}
-              </button>
             </div>
           </nav>
         </div>

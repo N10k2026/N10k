@@ -1,22 +1,5 @@
 import { z } from 'zod';
 
-export const loginSchema = z.object({
-  email: z.string().trim().email().max(254),
-  password: z.string().min(6).max(128),
-});
-
-export const registerSchema = z.object({
-  name: z.string().trim().min(1).max(100),
-  email: z.string().trim().email().max(254),
-  password: z.string().min(6).max(128),
-  phone: z.string().trim().max(30).optional(),
-});
-
-export const profileUpdateSchema = z.object({
-  name: z.string().trim().min(1).max(100),
-  phone: z.string().trim().max(30).optional(),
-});
-
 export const reviewSchema = z.object({
   productId: z.string().trim().min(1).max(64),
   userName: z.string().trim().min(1).max(80),
@@ -74,24 +57,4 @@ export function normalizeEmail(email: string): string {
 
 export function normalizeReviewerKey(userName: string): string {
   return userName.trim().toLowerCase();
-}
-
-type DbUser = {
-  id: string;
-  name: string | null;
-  email: string;
-  phone: string | null;
-  avatar: string | null;
-  createdAt: Date;
-};
-
-export function toPublicUser(user: DbUser) {
-  return {
-    id: user.id,
-    name: user.name ?? '',
-    email: user.email,
-    phone: user.phone,
-    avatar: user.avatar,
-    createdAt: user.createdAt.toISOString(),
-  };
 }
