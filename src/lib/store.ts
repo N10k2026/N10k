@@ -240,6 +240,14 @@ export const useCartStore = create<CartStore>()(
         wishlist: state.wishlist,
         recentlyViewed: state.recentlyViewed,
       }),
+      // Skip automatic hydration to prevent SSR/client hydration mismatch.
+      // When the page reloads with items in the wishlist/cart, the server
+      // renders with empty arrays while the client would rehydrate from
+      // localStorage immediately, causing a React hydration mismatch that
+      // breaks the page layout. We manually call rehydrate() after mount
+      // in the root component to ensure both server and client start with
+      // the same initial state.
+      skipHydration: true,
     }
   )
 );

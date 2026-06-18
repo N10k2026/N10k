@@ -61,6 +61,12 @@ export default function Home() {
   const isWishlistOpen = useCartStore((state) => state.isWishlistOpen);
   const isSearchOpen = useCartStore((state) => state.isSearchOpen);
 
+  // Manually rehydrate the persisted store after mount to prevent
+  // SSR/client hydration mismatches (e.g., wishlist hearts, cart badges).
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
+
   const [cartMounted, setCartMounted] = useState(false);
   const [wishlistMounted, setWishlistMounted] = useState(false);
   const [searchMounted, setSearchMounted] = useState(false);
