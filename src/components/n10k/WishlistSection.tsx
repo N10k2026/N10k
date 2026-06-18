@@ -22,6 +22,7 @@ export default function WishlistSection() {
   const setSelectedProduct = useCartStore((state) => state.setSelectedProduct);
   const setPreselectedColor = useCartStore((state) => state.setPreselectedColor);
   const setDetailOpen = useCartStore((state) => state.setDetailOpen);
+  const addRecentlyViewed = useCartStore((state) => state.addRecentlyViewed);
   const products = useCartStore((state) => state.products);
   const setWishlistOpen = useCartStore((state) => state.setWishlistOpen);
 
