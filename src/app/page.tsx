@@ -90,7 +90,6 @@ export default function Home() {
 
       <div className="relative z-10 flex flex-col min-h-screen pb-20">
         <Header />
-        <WishlistSection />
         <main id="main-content" className="flex-1">
           <h1 className="sr-only">N10K — Ropa de caballero urbana y deportiva</h1>
           <ScrollVideoHero />
@@ -109,6 +108,7 @@ export default function Home() {
             />
           </section>
 
+          <WishlistSection />
           <FeaturedProducts />
           <ProductGrid />
 
