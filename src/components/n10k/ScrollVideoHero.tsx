@@ -603,11 +603,14 @@ export default function ScrollVideoHero() {
       {showOverlay && (
         <div
           ref={overlayRef}
-          className="absolute inset-0 z-[10] flex items-center justify-center"
+          className={`absolute inset-0 z-[10] flex ${useMobileBanners ? 'items-end sm:items-center' : 'items-center'} justify-center`}
           style={{ opacity: useMobileBanners || useStaticHero ? 1 : 0 }}
         >
           {/* Dark gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60 pointer-events-none" />
+          <div className={`absolute inset-0 pointer-events-none ${useMobileBanners
+            ? 'bg-gradient-to-t from-black/70 via-black/20 to-transparent sm:bg-gradient-to-b sm:from-black/50 sm:via-black/30 sm:to-black/60'
+            : 'bg-gradient-to-b from-black/50 via-black/30 to-black/60'
+          }`} />
 
           {/* Radial red glow behind content */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#E30613]/8 rounded-full blur-[150px] pointer-events-none" />
@@ -616,9 +619,9 @@ export default function ScrollVideoHero() {
           <FloatingParticles />
 
           {/* Content */}
-          <div className="relative z-10 text-center px-5 sm:px-4 max-w-5xl mx-auto">
+          <div className={`relative z-10 text-center px-5 sm:px-4 max-w-5xl mx-auto ${useMobileBanners ? 'pb-8 sm:pb-0' : ''}`}>
             {/* Badge */}
-            <div ref={badgeRef} className="inline-flex items-center gap-2 glass-card badge-pulse px-3 sm:px-5 py-2 sm:py-2.5 mb-6 sm:mb-8">
+            <div ref={badgeRef} className="inline-flex items-center gap-2 glass-card badge-pulse px-3 sm:px-5 py-1.5 sm:py-2.5 mb-3 sm:mb-8">
               <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-[#E30613]" />
               <span className="text-animated-gradient text-[10px] sm:text-sm font-montserrat-extrabold tracking-[0.1em] sm:tracking-[0.15em] uppercase whitespace-nowrap">
                 Nueva Colección 2026
@@ -626,7 +629,7 @@ export default function ScrollVideoHero() {
             </div>
 
             {/* Brand Logo */}
-            <div ref={brandRef} className="mb-10 flex justify-center px-2 animate-panda-float">
+            <div ref={brandRef} className="mb-4 sm:mb-10 flex justify-center px-2 animate-panda-float">
               <div
                 ref={logoGlowRef}
                 style={{
@@ -640,17 +643,17 @@ export default function ScrollVideoHero() {
                   height={431}
                   priority={useMobileBanners || useStaticHero}
                   sizes="(max-width: 640px) 200px, (max-width: 1024px) 420px, 500px"
-                  className="w-[200px] sm:w-[350px] md:w-[420px] lg:w-[500px] h-auto max-w-full"
+                  className="w-[140px] sm:w-[350px] md:w-[420px] lg:w-[500px] h-auto max-w-full"
                 />
               </div>
             </div>
 
             {/* CTAs */}
-            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
               <div className="shimmer-border rounded-2xl p-[2px]">
                 <Button
                   size="lg"
-                  className="bg-[#E30613] hover:bg-[#ff1a22] text-white font-montserrat-black text-sm sm:text-base px-6 sm:px-8 py-5 sm:py-6 rounded-2xl tracking-[0.1em] uppercase shadow-lg shadow-[#E30613]/25 hover:shadow-[#E30613]/40 hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 btn-press btn-inner-highlight cta-shimmer w-full"
+                  className="bg-[#E30613] hover:bg-[#ff1a22] text-white font-montserrat-black text-xs sm:text-base px-5 sm:px-8 py-3 sm:py-6 rounded-xl sm:rounded-2xl tracking-[0.1em] uppercase shadow-lg shadow-[#E30613]/25 hover:shadow-[#E30613]/40 hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 btn-press btn-inner-highlight cta-shimmer w-full"
                   asChild
                 >
                   <a href="#collection">Comprar Ahora</a>
@@ -660,7 +663,7 @@ export default function ScrollVideoHero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="bg-background/80 backdrop-blur-sm border border-white/10 text-foreground hover:bg-foreground/5 font-montserrat-bold text-sm sm:text-base px-6 sm:px-8 py-5 sm:py-6 rounded-2xl tracking-[0.1em] uppercase hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 btn-press btn-inner-highlight w-full"
+                  className="bg-background/80 backdrop-blur-sm border border-white/10 text-foreground hover:bg-foreground/5 font-montserrat-bold text-xs sm:text-base px-5 sm:px-8 py-3 sm:py-6 rounded-xl sm:rounded-2xl tracking-[0.1em] uppercase hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 btn-press btn-inner-highlight w-full"
                   asChild
                 >
                   <a href="#new-arrivals">Ver Novedades</a>
