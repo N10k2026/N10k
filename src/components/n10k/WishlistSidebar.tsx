@@ -155,9 +155,6 @@ const WishlistSidebar = function WishlistSidebar() {
                       className="w-20 h-24 flex-shrink-0 overflow-hidden cursor-pointer"
                       onClick={() => {
                         setWishlistOpen(false);
-                        setSelectedProduct(product);
-                        setPreselectedColor(colorName);
-                        setDetailOpen(true);
                       }}
                     >
                       <img

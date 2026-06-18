@@ -65,10 +65,8 @@ export default function RecentlyViewedSection() {
     return null;
   }
 
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-    setDetailOpen(true);
-  };
+  // Product detail disabled
+  const handleProductClick = (_product: Product) => {};
 
   return (
     <section ref={sectionRef} className="py-6 sm:py-16 px-4 relative overflow-hidden">

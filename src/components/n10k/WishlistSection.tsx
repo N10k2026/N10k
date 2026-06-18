@@ -68,11 +68,8 @@ export default function WishlistSection() {
     });
   }, [removeWishlistItem]);
 
-  const handleViewProduct = useCallback((product: Product, colorName: string) => {
-    setSelectedProduct(product);
-    setPreselectedColor(colorName);
-    setDetailOpen(true);
-  }, [setSelectedProduct, setPreselectedColor, setDetailOpen]);
+  // Product detail disabled
+  const handleViewProduct = useCallback((_product: Product, _colorName: string) => {}, []);
 
   // Don't render if wishlist is empty
   if (wishlistEntries.length === 0) return null;

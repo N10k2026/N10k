@@ -120,14 +120,12 @@ export default function SearchModal() {
   }, []);
 
   // Select product
-  const handleSelectProduct = useCallback((product: Product) => {
-    setSelectedProduct(product);
-    setDetailOpen(true);
+  const handleSelectProduct = useCallback((_product: Product) => {
     setSearchOpen(false);
     if (debouncedQuery.trim()) {
       saveRecentSearch(debouncedQuery.trim());
     }
-  }, [setSelectedProduct, setDetailOpen, setSearchOpen, saveRecentSearch, debouncedQuery]);
+  }, [setSearchOpen, saveRecentSearch, debouncedQuery]);
 
   // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useCartStore } from '@/lib/store';
 import dynamic from 'next/dynamic';
 import Header from '@/components/n10k/Header';
 import FeaturedProducts from '@/components/n10k/FeaturedProducts';
@@ -16,7 +17,6 @@ import DeferredSection from '@/components/n10k/DeferredSection';
 import { Marquee } from '@/components/n10k/TextAnimations';
 import ScrollVideoHero from '@/components/n10k/ScrollVideoHero';
 import { usePerformancePrefs } from '@/hooks/use-performance-prefs';
-import { useCartStore } from '@/lib/store';
 
 const Plasma = dynamic(() => import('@/components/n10k/Plasma'), {
   ssr: false,
@@ -42,10 +42,6 @@ const Footer = dynamic(() => import('@/components/n10k/Footer'), {
   loading: () => null,
 });
 
-const ProductDetail = dynamic(() => import('@/components/n10k/ProductDetail'), {
-  ssr: false,
-  loading: () => null,
-});
 const CartSidebar = dynamic(() => import('@/components/n10k/CartSidebar'), {
   ssr: false,
   loading: () => null,
@@ -61,24 +57,14 @@ const SearchModal = dynamic(() => import('@/components/n10k/SearchModal'), {
 
 export default function Home() {
   const prefs = usePerformancePrefs();
-  const products = useCartStore((state) => state.products);
-  const productsStatus = useCartStore((state) => state.productsStatus);
-  const setSelectedProduct = useCartStore((state) => state.setSelectedProduct);
-  const setDetailOpen = useCartStore((state) => state.setDetailOpen);
-
-  const isDetailOpen = useCartStore((state) => state.isDetailOpen);
   const isCartOpen = useCartStore((state) => state.isOpen);
   const isWishlistOpen = useCartStore((state) => state.isWishlistOpen);
   const isSearchOpen = useCartStore((state) => state.isSearchOpen);
 
-  const [detailMounted, setDetailMounted] = useState(false);
   const [cartMounted, setCartMounted] = useState(false);
   const [wishlistMounted, setWishlistMounted] = useState(false);
   const [searchMounted, setSearchMounted] = useState(false);
 
-  useEffect(() => {
-    if (isDetailOpen) setDetailMounted(true);
-  }, [isDetailOpen]);
   useEffect(() => {
     if (isCartOpen) setCartMounted(true);
   }, [isCartOpen]);
@@ -88,30 +74,6 @@ export default function Home() {
   useEffect(() => {
     if (isSearchOpen) setSearchMounted(true);
   }, [isSearchOpen]);
-  // Deep link: /?product=<slug|id> opens product detail (BUG-008)
-  useEffect(() => {
-    if (productsStatus !== 'success' || products.length === 0) return;
-
-    const params = new URLSearchParams(window.location.search);
-    const productParam = params.get('product');
-    if (!productParam) return;
-
-    const product = products.find(
-      (p) => p.id === productParam || p.slug === productParam,
-    );
-    if (!product) return;
-
-    setDetailMounted(true);
-    setSelectedProduct(product);
-    setDetailOpen(true);
-
-    params.delete('product');
-    const nextSearch = params.toString();
-    const nextUrl = nextSearch
-      ? `${window.location.pathname}?${nextSearch}${window.location.hash}`
-      : `${window.location.pathname}${window.location.hash}`;
-    window.history.replaceState({}, '', nextUrl);
-  }, [productsStatus, products, setSelectedProduct, setDetailOpen]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background relative">
@@ -200,7 +162,6 @@ export default function Home() {
       <CookieConsent />
       <WhatsAppButton />
 
-      {detailMounted && <ProductDetail />}
       {cartMounted && <CartSidebar />}
       {wishlistMounted && <WishlistSidebar />}
       {searchMounted && <SearchModal />}

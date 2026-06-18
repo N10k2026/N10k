@@ -39,11 +39,8 @@ export default function FeaturedProducts() {
     return [...bestSellers, ...remaining].slice(0, 4);
   }, [products]);
 
-  const handleViewDetail = (product: Product, colorName?: string) => {
-    setSelectedProduct(product);
-    setPreselectedColor(colorName || null);
-    setDetailOpen(true);
-  };
+  // Product detail disabled — no-op
+  const handleViewDetail = (_product: Product, _colorName?: string) => {};
 
   const handleQuickAdd = (product: Product, colorName?: string) => {
     const size = getFirstAvailableSize(product);
